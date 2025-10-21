@@ -1,6 +1,3 @@
-// GSAP Initialization
-gsap.registerPlugin(ScrollTrigger);
-
 // Smooth scroll for navigation links
 document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', function(e) {
@@ -41,136 +38,101 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// GSAP Scroll Animations
+// Intersection Observer for scroll animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+};
 
-// About section animation
-gsap.from('.about-text', {
-    scrollTrigger: {
-        trigger: '.about-section',
-        start: 'top 70%',
-        end: 'bottom 20%',
-        toggleActions: 'play none none reverse'
-    },
-    opacity: 0,
-    y: 100,
-    duration: 1,
-    ease: 'power3.out'
-});
-
-// Skills animation
-gsap.from('.skill-tag', {
-    scrollTrigger: {
-        trigger: '.skills',
-        start: 'top 80%',
-        toggleActions: 'play none none reverse'
-    },
-    opacity: 0,
-    y: 50,
-    stagger: 0.1,
-    duration: 0.8,
-    ease: 'power3.out'
-});
-
-// Gallery items animation
-gsap.from('.gallery-item', {
-    scrollTrigger: {
-        trigger: '.gallery-grid',
-        start: 'top 70%',
-        toggleActions: 'play none none reverse'
-    },
-    opacity: 0,
-    y: 100,
-    stagger: 0.15,
-    duration: 1,
-    ease: 'power3.out'
-});
-
-// Section titles animation
-gsap.utils.toArray('.section-title').forEach(title => {
-    gsap.from(title, {
-        scrollTrigger: {
-            trigger: title,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-        },
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: 'power3.out'
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
     });
+}, observerOptions);
+
+// Observe about section
+const aboutText = document.querySelector('.about-text');
+if (aboutText) {
+    aboutText.style.opacity = '0';
+    aboutText.style.transform = 'translateY(100px)';
+    aboutText.style.transition = 'opacity 1s ease, transform 1s ease';
+    observer.observe(aboutText);
+}
+
+// Observe skill tags
+document.querySelectorAll('.skill-tag').forEach((tag, index) => {
+    tag.style.opacity = '0';
+    tag.style.transform = 'translateY(50px)';
+    tag.style.transition = `opacity 0.8s ease ${index * 0.1}s, transform 0.8s ease ${index * 0.1}s`;
+    observer.observe(tag);
 });
 
-// Section subtitles animation
-gsap.utils.toArray('.section-subtitle').forEach(subtitle => {
-    gsap.from(subtitle, {
-        scrollTrigger: {
-            trigger: subtitle,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        delay: 0.2,
-        ease: 'power3.out'
-    });
+// Observe gallery items
+document.querySelectorAll('.gallery-item').forEach((item, index) => {
+    item.style.opacity = '0';
+    item.style.transform = 'translateY(100px)';
+    item.style.transition = `opacity 1s ease ${index * 0.15}s, transform 1s ease ${index * 0.15}s`;
+    observer.observe(item);
 });
 
-// Contact form animation
-gsap.from('.contact-form .form-group', {
-    scrollTrigger: {
-        trigger: '.contact-form',
-        start: 'top 70%',
-        toggleActions: 'play none none reverse'
-    },
-    opacity: 0,
-    x: -50,
-    stagger: 0.1,
-    duration: 0.8,
-    ease: 'power3.out'
+// Observe section titles
+document.querySelectorAll('.section-title').forEach(title => {
+    title.style.opacity = '0';
+    title.style.transform = 'translateY(50px)';
+    title.style.transition = 'opacity 1s ease, transform 1s ease';
+    observer.observe(title);
 });
 
-gsap.from('.submit-btn', {
-    scrollTrigger: {
-        trigger: '.contact-form',
-        start: 'top 70%',
-        toggleActions: 'play none none reverse'
-    },
-    opacity: 0,
-    y: 30,
-    duration: 0.8,
-    delay: 0.5,
-    ease: 'power3.out'
+// Observe section subtitles
+document.querySelectorAll('.section-subtitle').forEach(subtitle => {
+    subtitle.style.opacity = '0';
+    subtitle.style.transform = 'translateY(30px)';
+    subtitle.style.transition = 'opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s';
+    observer.observe(subtitle);
 });
 
-// Contact info animation
-gsap.from('.contact-item', {
-    scrollTrigger: {
-        trigger: '.contact-info',
-        start: 'top 70%',
-        toggleActions: 'play none none reverse'
-    },
-    opacity: 0,
-    x: 50,
-    stagger: 0.2,
-    duration: 0.8,
-    ease: 'power3.out'
+// Observe contact form groups
+document.querySelectorAll('.contact-form .form-group').forEach((group, index) => {
+    group.style.opacity = '0';
+    group.style.transform = 'translateX(-50px)';
+    group.style.transition = `opacity 0.8s ease ${index * 0.1}s, transform 0.8s ease ${index * 0.1}s`;
+    observer.observe(group);
 });
 
-// Gallery hover effect enhancement with GSAP
+// Observe submit button
+const submitBtn = document.querySelector('.submit-btn');
+if (submitBtn) {
+    submitBtn.style.opacity = '0';
+    submitBtn.style.transform = 'translateY(30px)';
+    submitBtn.style.transition = 'opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s';
+    observer.observe(submitBtn);
+}
+
+// Observe contact items
+document.querySelectorAll('.contact-item').forEach((item, index) => {
+    item.style.opacity = '0';
+    item.style.transform = 'translateX(50px)';
+    item.style.transition = `opacity 0.8s ease ${index * 0.2}s, transform 0.8s ease ${index * 0.2}s`;
+    observer.observe(item);
+});
+
+// Gallery hover effect enhancement
 document.querySelectorAll('.gallery-item').forEach(item => {
+    const overlay = item.querySelector('.gallery-overlay');
+    
     item.addEventListener('mouseenter', function() {
-        gsap.to(this.querySelector('.gallery-overlay'), {
-            background: 'linear-gradient(180deg, rgba(25, 118, 210, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%)',
-            duration: 0.4
-        });
+        if (overlay) {
+            overlay.style.background = 'linear-gradient(180deg, rgba(25, 118, 210, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%)';
+        }
     });
     
     item.addEventListener('mouseleave', function() {
-        gsap.to(this.querySelector('.gallery-overlay'), {
-            background: 'linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%)',
-            duration: 0.4
-        });
+        if (overlay) {
+            overlay.style.background = 'linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%)';
+        }
     });
 });
 
@@ -197,26 +159,15 @@ const carousel = {
     
     updateCarousel() {
         const slideWidth = this.slides[0].offsetWidth;
-        gsap.to(this.track, {
-            x: -slideWidth * this.currentIndex,
-            duration: 0.8,
-            ease: 'power3.inOut'
-        });
+        this.track.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+        this.track.style.transform = `translateX(-${slideWidth * this.currentIndex}px)`;
         
         // Update indicators
         this.indicators.forEach((indicator, index) => {
             if (index === this.currentIndex) {
                 indicator.classList.add('active');
-                gsap.to(indicator, {
-                    scale: 1.2,
-                    duration: 0.3
-                });
             } else {
                 indicator.classList.remove('active');
-                gsap.to(indicator, {
-                    scale: 1,
-                    duration: 0.3
-                });
             }
         });
         
@@ -261,13 +212,12 @@ document.querySelector('.contact-form').addEventListener('submit', function(e) {
     // Animate button
     const submitBtn = this.querySelector('.submit-btn');
     const originalText = submitBtn.textContent;
+    const originalBg = submitBtn.style.background;
     
-    gsap.to(submitBtn, {
-        scale: 0.95,
-        duration: 0.1,
-        yoyo: true,
-        repeat: 1
-    });
+    submitBtn.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        submitBtn.style.transform = 'scale(1)';
+    }, 100);
     
     submitBtn.textContent = 'Sending...';
     
@@ -280,7 +230,7 @@ document.querySelector('.contact-form').addEventListener('submit', function(e) {
         setTimeout(() => {
             this.reset();
             submitBtn.textContent = originalText;
-            submitBtn.style.background = 'linear-gradient(135deg, var(--accent-blue), var(--light-blue))';
+            submitBtn.style.background = originalBg || 'linear-gradient(135deg, var(--accent-blue), var(--light-blue))';
         }, 2000);
     }, 1500);
 });
@@ -301,17 +251,23 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Add floating animation to gallery items
-document.querySelectorAll('.gallery-item').forEach((item, index) => {
-    gsap.to(item, {
-        y: '+=20',
-        duration: 2 + (index * 0.1),
-        repeat: -1,
-        yoyo: true,
-        ease: 'power1.inOut',
-        delay: index * 0.2
-    });
-});
+// Add floating animation to gallery items using CSS animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(20px); }
+    }
+    .gallery-item {
+        animation: float 3s ease-in-out infinite;
+    }
+    .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+    .gallery-item:nth-child(3) { animation-delay: 0.4s; }
+    .gallery-item:nth-child(4) { animation-delay: 0.6s; }
+    .gallery-item:nth-child(5) { animation-delay: 0.8s; }
+    .gallery-item:nth-child(6) { animation-delay: 1s; }
+`;
+document.head.appendChild(style);
 
 // Mouse move effect for hero section
 document.querySelector('.hero-section').addEventListener('mousemove', (e) => {
@@ -321,12 +277,11 @@ document.querySelector('.hero-section').addEventListener('mousemove', (e) => {
     const xPos = (clientX / innerWidth - 0.5) * 20;
     const yPos = (clientY / innerHeight - 0.5) * 20;
     
-    gsap.to('.hero-title', {
-        x: xPos,
-        y: yPos,
-        duration: 0.5,
-        ease: 'power2.out'
-    });
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+        heroTitle.style.transition = 'transform 0.5s ease-out';
+        heroTitle.style.transform = `translate(${xPos}px, ${yPos}px)`;
+    }
 });
 
 // Resize handler for carousel
@@ -334,15 +289,13 @@ window.addEventListener('resize', () => {
     carousel.updateCarousel();
 });
 
-// Add reveal animation on page load
+// Page load animation
 window.addEventListener('load', () => {
-    gsap.to('body', {
-        opacity: 1,
-        duration: 0.5
-    });
+    document.body.style.opacity = '1';
 });
 
 // Initialize body opacity
-document.body.style.opacity = 0;
+document.body.style.opacity = '0';
+document.body.style.transition = 'opacity 0.5s ease';
 
 console.log('Portfolio website initialized successfully!');
